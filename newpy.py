@@ -62,6 +62,15 @@ def newpy(name, script):
     out_fp.write(SCRIPT_TEMPL%(name, name, name, name))
     out_fp.close()
 
+    #now add execution permission
+    import os
+    import stat
+
+    out_st = os.stat(out_fn)
+    out_mode = out_st.st_mode
+    out_mode |= (out_mode &0o444)>>2
+    os.chmod(out_fn, out_mode)
+
     return
 
 if __name__ == "__main__":
